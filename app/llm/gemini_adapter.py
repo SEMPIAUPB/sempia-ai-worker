@@ -21,11 +21,17 @@ class GeminiAdapter:
             # We enforce JSON response structure using the prompt
             response = self.model.generate_content(
                 prompt,
-                generation_config=genai.types.GenerationConfig(
-                    temperature=0.2,
-                    response_mime_type="application/json"
-                )
+                generation_config={"temperature": 0.2}
             )
-            return json.loads(response.text)
+            # Clean possible markdown formatting
+            text = response.text.strip()
+            if text.startswith("```json"):
+                text = text[7:]
+            if text.startswith("```"):
+                text = text[3:]
+            if text.endswith("```"):
+                text = text[:-3]
+            
+            return json.loads(text.strip())
         except Exception as e:
             raise Exception(f"Failed to generate hint: {str(e)}")
