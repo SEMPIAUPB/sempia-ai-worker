@@ -114,6 +114,6 @@ class TutoringService:
             programming_concept=concept,
             pedagogical_recommendation=recommendation,
             confidence_level="Medium (Fallback)",
-            hint_text=hint + " (Pista Automática)",
+            hint_text=hint,
             can_resubmit=True
         )
